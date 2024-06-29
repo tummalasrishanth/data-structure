@@ -1,0 +1,17 @@
+#include <stdio.h>
+
+int main() {
+    int digits[] = {3, 4, 2};
+    int size = sizeof(digits) / sizeof(digits[0]);
+
+    printf("Reverse order: ");
+    for (int i = size - 1; i >= 0; i--) {
+        printf("%d", digits[i]);
+        if (i > 0) {
+            printf(", ");
+        }
+    }
+    printf("\n");
+
+    return 0;
+}

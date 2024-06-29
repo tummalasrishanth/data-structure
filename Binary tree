@@ -1,0 +1,68 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define the structure for a binary tree node
+typedef struct Node {
+    int val;
+    struct Node* left;
+    struct Node* right;
+} Node;
+
+// Function to create a new binary tree node
+Node* newNode(int val) {
+    Node* node = (Node*)malloc(sizeof(Node));
+    node->val = val;
+    node->left = node->right = NULL;
+    return node;
+}
+
+// Function to construct the binary tree from preorder and inorder traversal
+Node* constructTree(int preorder[], int inorder[], int preorderStart, int preorderEnd, int inorderStart, int inorderEnd) {
+    // Base case: If the preorder array is empty, return NULL
+    if (preorderStart > preorderEnd) {
+        return NULL;
+    }
+
+    // Create a new node with the first element of the preorder array
+    Node* node = newNode(preorder[preorderStart]);
+
+    // Find the index of the current node in the inorder array
+    int inorderIndex = inorderStart;
+    while (inorderIndex <= inorderEnd && inorder[inorderIndex] != preorder[preorderStart]) {
+        inorderIndex++;
+    }
+
+    // Recursively construct the left subtree
+    node->left = constructTree(preorder, inorder, preorderStart + 1, preorderStart + inorderIndex - inorderStart, inorderStart, inorderIndex - 1);
+
+    // Recursively construct the right subtree
+    node->right = constructTree(preorder, inorder, preorderStart + inorderIndex - inorderStart + 1, preorderEnd, inorderIndex + 1, inorderEnd);
+
+    return node;
+}
+
+// Function to print the binary tree in preorder traversal
+void printPreorder(Node* node) {
+    if (node == NULL) {
+        return;
+    }
+
+    printf("%d ", node->val);
+    printPreorder(node->left);
+    printPreorder(node->right);
+}
+
+int main() {
+    int preorder[] = {3, 9, 20, 15, 7};
+    int inorder[] = {9, 3, 15, 20, 7};
+
+    // Create the binary tree from preorder and inorder traversal
+    Node* root = constructTree(preorder, inorder, 0, 4, 0, 4);
+
+    // Print the binary tree in preorder traversal
+    printf("Preorder traversal: ");
+    printPreorder(root);
+    printf("\n");
+
+    return 0;
+}

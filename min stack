@@ -1,0 +1,76 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    int val;
+    int min;
+} StackElement;
+
+typedef struct {
+    StackElement* elements;
+    int size;
+    int capacity;
+} MinStack;
+
+MinStack* minStackCreate() {
+    MinStack* stack = (MinStack*)malloc(sizeof(MinStack));
+    stack->size = 0;
+    stack->capacity = 1;
+    stack->elements = (StackElement*)malloc(sizeof(StackElement) * stack->capacity);
+    return stack;
+}
+
+void minStackPush(MinStack* stack, int val) {
+    if (stack->size == stack->capacity) {
+        stack->capacity *= 2;
+        stack->elements = (StackElement*)realloc(stack->elements, sizeof(StackElement) * stack->capacity);
+    }
+    stack->elements[stack->size].val = val;
+    if (stack->size == 0 || stack->elements[stack->size - 1].min > val) {
+        stack->elements[stack->size].min = val;
+    } else {
+        stack->elements[stack->size].min = stack->elements[stack->size - 1].min;
+    }
+    stack->size++;
+}
+
+void minStackPop(MinStack* stack) {
+    if (stack->size > 0) {
+        stack->size--;
+        if (stack->size > 0) {
+            stack->elements[stack->size - 1].min = stack->elements[stack->size - 2].min;
+        }
+    }
+}
+
+int minStackTop(MinStack* stack) {
+    if (stack->size > 0) {
+        return stack->elements[stack->size - 1].val;
+    }
+    return -1;
+}
+
+int minStackGetMin(MinStack* stack) {
+    if (stack->size > 0) {
+        return stack->elements[stack->size - 1].min;
+    }
+    return -1;
+}
+
+void minStackFree(MinStack* stack) {
+    free(stack->elements);
+    free(stack);
+}
+
+int main() {
+    MinStack* stack = minStackCreate();
+    minStackPush(stack, -2);
+    minStackPush(stack, 0);
+    minStackPush(stack, -3);
+    printf("%d\n", minStackGetMin(stack)); // Output: -3
+    minStackPop(stack);
+    printf("%d\n", minStackTop(stack)); // Output: 0
+    printf("%d\n", minStackGetMin(stack)); // Output: -2
+    minStackFree(stack);
+    return 0;
+}

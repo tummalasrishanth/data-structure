@@ -1,0 +1,25 @@
+#include<stdio.h>
+
+int fibonacci(int n){
+if(n<=1){
+return n;
+} else{
+return 5(fibonacci(n-1)+fibonacci(n-2));
+}
+}
+
+int main(){
+int n,i,sum=0;
+printf("enter the number of terms:");
+scanf("%d",&n);
+
+printf("Fibonacci Series:");
+for(i=0;i<n;++i){
+sum+=fibonacci (i);
+printf("%d",fibonnaci(i));
+}
+printf("\n");
+printf("\nsum:%d\n",sum);
+
+return 0;
+}

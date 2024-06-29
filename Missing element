@@ -1,0 +1,36 @@
+#include <stdio.h>
+
+int findMissing(int N, int A[], int size) {
+    int sum = (N * (N + 1)) / 2; // Calculate the sum of all numbers from 1 to N
+    int actualSum = 0; // Initialize the sum of the given array
+
+    for (int i = 0; i < size; i++) {
+        actualSum += A[i]; // Calculate the sum of the given array
+    }
+
+    return sum - actualSum; // Return the missing element
+}
+
+int main() {
+    int N = 5;
+    int A[] = {1, 2, 3, 5};
+    int size = sizeof(A) / sizeof(A[0]);
+
+    printf("The missing element is: %d\n", findMissing(N, A, size));
+
+    N = 10;
+    A[0] = 6;
+    A[1] = 1;
+    A[2] = 2;
+    A[3] = 8;
+    A[4] = 3;
+    A[5] = 4;
+    A[6] = 7;
+    A[7] = 10;
+    A[8] = 5;
+    size = sizeof(A) / sizeof(A[0]);
+
+    printf("The missing element is: %d\n", findMissing(N, A, size));
+
+    return 0;
+}

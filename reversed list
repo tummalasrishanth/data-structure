@@ -1,0 +1,76 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define the structure for a node in the linked list
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+// Function to create a new node
+Node* createNode(int data) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// Function to reverse the linked list from position left to right
+Node* reverseList(Node* head, int left, int right) {
+    if (head == NULL || left > right) {
+        return head;
+    }
+
+    // Initialize pointers for the current node and the previous node
+    Node* prev = NULL;
+    Node* curr = head;
+    Node* next = NULL;
+
+    // Move to the left position
+    for (int i = 1; i < left; i++) {
+        prev = curr;
+        curr = curr->next;
+    }
+
+    // Reverse the nodes from left to right
+    for (int i = 1; i <= right - left; i++) {
+        next = curr->next;
+        curr->next = next->next;
+        next->next = prev->next;
+        prev->next = next;
+    }
+
+    return head;
+}
+
+// Function to print the linked list
+void printList(Node* head) {
+    while (head != NULL) {
+        printf("%d ", head->data);
+        head = head->next;
+    }
+    printf("\n");
+}
+
+// Main function
+int main() {
+    // Create the linked list: 1 -> 2 -> 3 -> 4 -> 5
+    Node* head = createNode(1);
+    head->next = createNode(2);
+    head->next->next = createNode(3);
+    head->next->next->next = createNode(4);
+    head->next->next->next->next = createNode(5);
+
+    // Print the original list
+    printf("Original List: ");
+    printList(head);
+
+    // Reverse the list from position 2 to 4
+    head = reverseList(head, 2, 4);
+
+    // Print the reversed list
+    printf("Reversed List: ");
+    printList(head);
+
+    return 0;
+}

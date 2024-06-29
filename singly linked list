@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define the structure for a node in the linked list
+typedef struct Node {
+    int data;
+    struct Node *next;
+} Node;
+
+// Function to count the number of nodes in the linked list
+int countNodes(Node *head) {
+    int count = 0;
+    Node *current = head;
+
+    // Traverse the linked list
+    while (current != NULL) {
+        count++;
+        current = current->next;
+    }
+
+    return count;
+}
+
+int main() {
+    // Initialize nodes
+    Node *head = NULL;
+    Node *one = NULL;
+    Node *two = NULL;
+    Node *three = NULL;
+    // Allocate memory
+    one = malloc(sizeof(Node));
+    two = malloc(sizeof(Node));
+    three = malloc(sizeof(Node));
+    // Assign data values
+    one->data = 1;
+    two->data = 2;
+    three->data = 3;
+    // Connect nodes
+    one->next = two;
+    two->next = three;
+    three->next = NULL;
+    // Set the head
+    head = one;
+    // Count the number of nodes
+    int numNodes = countNodes(head);
+
+    printf("Number of nodes: %d\n", numNodes);
+
+    return 0;
+}

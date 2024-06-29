@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_SIZE 100
+
+int queue[MAX_SIZE];
+int front = -1, rear = -1;
+
+// Function to insert an element into the queue
+void enqueue(int element) {
+    if (rear == MAX_SIZE - 1) {
+        printf("Error: Queue is full\n");
+        return;
+    }
+
+    if (front == -1 && rear == -1) {
+        front = rear = 0;
+    } else {
+        rear++;
+    }
+
+    queue[rear] = element;
+    printf("Inserted %d into the queue\n", element);
+}
+
+// Function to delete an element from the queue
+int dequeue() {
+    if (front == -1 && rear == -1) {
+        printf("Error: Queue is empty\n");
+        return -1;
+    }
+
+    int element = queue[front];
+    if (front == rear) {
+        front = rear = -1;
+    } else {
+        front++;
+    }
+
+    printf("Deleted %d from the queue\n", element);
+    return element;
+}
+
+int main() {
+    // Example usage
+    enqueue(12);
+    enqueue(34);
+    enqueue(56);
+    enqueue(78);
+    enqueue(60);
+
+    printf("Queue contents: ");
+    for (int i = front; i <= rear; i++) {
+        printf("%d ", queue[i]);
+    }
+    printf("\n");
+
+    dequeue(); // Deletes 12 from the queue
+
+    printf("Queue contents: ");
+    for (int i = front; i <= rear; i++) {
+        printf("%d ", queue[i]);
+    }
+    printf("\n");
+
+    return 0;
+}

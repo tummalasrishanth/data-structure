@@ -1,0 +1,53 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Function to check if the input string is valid
+int isValid(char *s) {
+    // Initialize a stack to store the opening brackets
+    int stack[100];
+    int top = -1;
+
+    // Iterate over the input string
+    for (int i = 0; i < strlen(s); i++) {
+        // Check for opening brackets
+        if (s[i] == '(' || s[i] == '{' || s[i] == '[') {
+            // Push the opening bracket onto the stack
+            stack[++top] = s[i];
+        }
+        // Check for closing brackets
+        else if (s[i] == ')' || s[i] == '}' || s[i] == ']') {
+            // Check if the stack is empty
+            if (top == -1) {
+                return 0;
+            }
+            // Check if the closing bracket matches the opening bracket
+            if ((s[i] == ')' && stack[top] != '(') || (s[i] == '}' && stack[top] != '{') || (s[i] == ']' && stack[top] != '[')) {
+                return 0;
+            }
+            // Pop the opening bracket from the stack
+            top--;
+        }
+    }
+    // Check if the stack is empty
+    if (top == -1) {
+        return 1;
+    }
+    return 0;
+}
+
+int main() {
+    char *s1 = "()"; // Valid string
+    char *s2 = "()[]{}"; // Valid string
+    char *s3 = "(]"; // Invalid string
+    char *s4 = "([)]"; // Invalid string
+    char *s5 = "{[]}"; // Valid string
+
+    printf("%d\n", isValid(s1)); // Output: 1
+    printf("%d\n", isValid(s2)); // Output: 1
+    printf("%d\n", isValid(s3)); // Output: 0
+    printf("%d\n", isValid(s4)); // Output: 0
+    printf("%d\n", isValid(s5)); // Output: 1
+
+    return 0;
+}
